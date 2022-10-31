@@ -1,0 +1,28 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+jobs:
+  - job: j1
+    steps:
+      - script: echo "J1"
+  
+  - job: j2
+    condition: eq('true', 'false')
+    steps:
+      - script: echo "j2"
+  
+  - job: j3
+    dependsOn:
+      - j1
+      - j2
+    condition: and(succeeded('j1'), succeeded('j2'))
+    steps:
+      - script: echo "j3"
