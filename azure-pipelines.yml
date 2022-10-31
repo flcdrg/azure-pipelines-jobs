@@ -26,3 +26,19 @@ jobs:
     condition: and(succeeded('j1'), succeeded('j2'))
     steps:
       - script: echo "j3"
+
+  - job: j4
+    dependsOn:
+      - j1
+      - j2
+    condition: and(succeeded('j1'), not(failed('j2')))
+    steps:
+      - script: echo "j4"
+
+  - job: j5
+    dependsOn:
+      - j1
+      - j2
+    condition: succeeded()
+    steps:
+      - script: echo "j5"
