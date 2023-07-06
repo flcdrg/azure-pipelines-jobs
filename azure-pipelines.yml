@@ -13,12 +13,14 @@ jobs:
   - job: j1
     steps:
       - script: echo "J1"
-  
+
+  # This job should not run because the condition should evaluate to false
   - job: j2
     condition: eq('true', 'false')
     steps:
       - script: echo "j2"
-  
+
+  # This job should not run because it depends on j2 and j2 did not succeed as it was not run
   - job: j3
     dependsOn:
       - j1
@@ -27,6 +29,7 @@ jobs:
     steps:
       - script: echo "j3"
 
+  # This job should run as while it depends on j2, it only requires that j2 did not fail
   - job: j4
     dependsOn:
       - j1
@@ -35,6 +38,7 @@ jobs:
     steps:
       - script: echo "j4"
 
+  # This job should not run as it depends on j2 and j2 was not run
   - job: j5
     dependsOn:
       - j1
